@@ -1,6 +1,6 @@
 #include "Game.h"
 
-size_t Game::Entity::scoreBlack; //Статичні поля ми можемо об'явити і проініціалізувати в глобальному просторі. Глобальний простір їх обнуляє, тому не обов'язково їм дописувати " = 0"
+size_t Game::Entity::scoreBlack;
 size_t Game::Entity::scoreRed;
 
 Game::Entity::Entity(int x, int y)

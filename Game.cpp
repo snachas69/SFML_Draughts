@@ -10,7 +10,7 @@ Game::Game()
 		for (size_t j = 0; j < 8; j++)
 		{
 			if (i < 3 || i > 4)
-				if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) //Якщо починати рахувати від 0, то у кожному парному рядку чорна клітинка(де має бути розміщена фігура) - теж парна. Якщо рядок - не парний, то чорна клітинка, аналогічно, теж не парна 
+				if ((i % 2 == 0 && j % 2 == 0) || (i % 2 != 0 && j % 2 != 0)) 
 				{
 					field[i][j] = new Piece(i < 3 ? 7 : 4, j, i);
 					continue;
@@ -53,7 +53,7 @@ void Game::Draw(sf::RenderWindow& window) const
 
 void Game::MakeMove(Cords from, Cords to, int tryMove)
 {
-	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), field[from.y][from.x]->GetColor()); //Ось для чого я вибрав саме ті числа в кольорі
+	SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), field[from.y][from.x]->GetColor()); 
 	switch (tryMove)
 	{
 	case 0:
@@ -61,7 +61,7 @@ void Game::MakeMove(Cords from, Cords to, int tryMove)
 	case -1:
 	{
 
-		int x = (to.x - from.x) / abs(to.x - from.x); //Не звертайте уваги, тут міг би бути звичайний макрос, але мені не хотілося викидати плоди своїх роздумів, на які я витратив 10 хвили
+		int x = (to.x - from.x) / abs(to.x - from.x); 
 		int y = (to.y - from.y) / abs(to.y - from.y);
 		
 		for (size_t i = from.x + x, j = from.y + y; 
@@ -77,10 +77,10 @@ void Game::MakeMove(Cords from, Cords to, int tryMove)
 
 	field[from.y][from.x]->SetCurrentCords(to);
 	std::swap(field[from.y][from.x], field[to.y][to.x]);
-	std::cout << char(from.y + 97) << from.x + 1 << char(to.y + 97) << to.x + 1 << '\n'; //Вивід ходу
-	sound.play(); //Звук
+	std::cout << char(from.y + 97) << from.x + 1 << char(to.y + 97) << to.x + 1 << '\n'; 
+	sound.play();
 
-	int edge = field[to.y][to.x]->GetColor() == 7 ? 7 : 0;  //Координати у, де фігура стає дамкою
+	int edge = field[to.y][to.x]->GetColor() == 7 ? 7 : 0;  
 
 	if (!dynamic_cast<Piece*>(field[to.y][to.x])->GetIsKing())
 		if (to.y == edge)

@@ -25,17 +25,17 @@ int Game::Piece::IsMovePosible(Cords cords, Entity*** field) const
 {
     if (cords.x <= 7 && cords.x >= 0 && cords.y <= 7 && cords.y >= 0)
     {
-        int direction = Color == 7 ? 1 : -1;//Траекторія руху звичайної фігури по осі у
+        int direction = Color == 7 ? 1 : -1;
         if (!field[cords.y][cords.x]->GetSprite())
         {
-            if (isKing) return IsKingMovePosible(cords, field); //Якщо це - дамка, то одразу заходимо в алгоритм для неї
+            if (isKing) return IsKingMovePosible(cords, field);
 
             else if (abs(cords.x - currnet.x) == 1 && direction == cords.y - currnet.y)
                 return 1;
 
             else if (abs(cords.x - currnet.x) == 2 && abs(cords.y - currnet.y) == 2)
             {
-                int x = (cords.x - currnet.x) / abs(cords.x - currnet.x) + currnet.x; //Перший раз, коли ця формула була обов'язковою(майже). Так я визначаю де знаходиться клітинка з фігурою, яка тільки що відправилася до Вальгали
+                int x = (cords.x - currnet.x) / abs(cords.x - currnet.x) + currnet.x;
                 int y = (cords.y - currnet.y) / abs(cords.y - currnet.y) + currnet.y;
 
                 if (field[y][x]->GetSprite() && field[y][x]->GetColor() != Color)
@@ -49,11 +49,11 @@ int Game::Piece::IsMovePosible(Cords cords, Entity*** field) const
 int Game::Piece::PosiibleMoves(Entity*** field) const
 {
     if (isKing)
-        return PosiibleKingMoves(field); //Аналогічно з попереднім методом
+        return PosiibleKingMoves(field);
 
-    int move = 0; //Штука яка залишиться 0, якщо немає жодного можливого ходу, або стане 1, якщо хоча б один хід можливий
-    int direction = Color == 7 ? 1 : -1; //Та ж траекторія руху по осі у при звичайному ході
-    Cords moves[] = {         //Усі можливі варіанти того, куди можна піти
+    int move = 0; 
+    int direction = Color == 7 ? 1 : -1;
+    Cords moves[] = {         
         Cords(direction, 1), 
         Cords(direction, -1), 
         Cords(2, 2), 
@@ -70,7 +70,7 @@ int Game::Piece::PosiibleMoves(Entity*** field) const
             move = 1;
             break;
         case -1:
-            return -1; //Якщо хоча б в одному місці можна побити, то ми одразу виходимо, бо більш нам тут робити немає чого
+            return -1;
         }
     }
 	return move;
@@ -118,29 +118,29 @@ void Game::Piece::Kill()
 
 int Game::Piece::IsKingMovePosible(Cords cords, Entity*** field) const
 {
-    int x = currnet.x > cords.x ? -1 : 1; //Ось що можна було зробити замість тієї формули
+    int x = currnet.x > cords.x ? -1 : 1; 
     int y = currnet.y > cords.y ? -1 : 1;
-    bool piece = false; //Чи знайшов цикл ворожу фігуру на шляху у дамки
-    int check = 0; //Те ж саме, що і методіз генерацією ходів
+    bool piece = false; 
+    int check = 0; 
     for (size_t i = currnet.x + x, j = currnet.y + y;; i += x, j += y)
     {
         if (field[j][i]->GetColor() == Color)
             return 0;
-        else if (piece && !field[j][i]->GetSprite()) //Якщо на шляху дамки була фігура, а клітинка одразу за нею порожня, то починаємо шукати нову ворожу фігуру, та кажемо, що побиття можливе
+        else if (piece && !field[j][i]->GetSprite()) 
         {
             check = -1;
             piece = false;
         }
-        else if (field[j][i]->GetColor() != Color && field[j][i]->GetSprite()) //Виходимо з блоку, якщо ми натрапилися на фігуру, одразу за ворожою фігурою, або кажемо, що ми тільки що натрапиися на ворожу фігуру
+        else if (field[j][i]->GetColor() != Color && field[j][i]->GetSprite())
         {
             if (!piece)
                 piece = true;
             else
                 return 0;
         }   
-        else if (check != -1 && !field[j][i]->GetSprite()) //Оскільки, якщо ми знайшли побиття, то check має  залишатися -1, але якщо ні, то ми кажемо, що check = 1
+        else if (check != -1 && !field[j][i]->GetSprite()) 
             check = 1;
-        if (j == cords.y && i == cords.x)  //Умова закінчення роботи циклу і перша причина, чтому я не використовую цей метод для методу нижче
+        if (j == cords.y && i == cords.x)
             break;
     }
     return check;
@@ -161,7 +161,7 @@ int Game::Piece::PosiibleKingMoves(Entity*** field) const
         for (size_t j = currnet.x + move[i].x, k = currnet.y + move[i].y;
             ; j += move[i].x, k += move[i].y)
         {
-            if (k > 7 || k < 0 || j > 7 || j < 0)   //А ось і друга.Якщо герерація ходу виходить за межі дозволеного, то перейти на іншу траекторію
+            if (k > 7 || k < 0 || j > 7 || j < 0) 
                 break;
             if (field[k][j]->GetColor() == Color)
                 break;

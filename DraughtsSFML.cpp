@@ -1,17 +1,17 @@
 #include "Game.h"
 
 Cords::Cords() { }
-Cords::Cords(int x, int y) : x(x), y(y) { }   //Реалізація конструкторів для першої структури
-std::string Menu::time1;                      //Обов'язкова штука для другої
+Cords::Cords(int x, int y) : x(x), y(y) { }
+std::string Menu::time1;
 tm* Menu::time2;
 int Menu::winner;
 
 bool Menu::PlayGame(std::string& player)
 {
-	time_t start = time(0); // Початок сессії
-	time_t end;             //Її кінець
+	time_t start = time(0);
+	time_t end;            
 
-	std::ofstream score;    //Потік для запису результатів гри
+	std::ofstream score;   
 	score.open("Scores/" + player + ".txt", std::ios_base::app);
 
 	sf::Music music;
@@ -21,20 +21,20 @@ bool Menu::PlayGame(std::string& player)
 
 	Game game;
 	sf::RenderWindow window(sf::VideoMode(740, 725), "Board");
-	float dx = A1X - 5, dy = A1Y - 6;      //Координати курсора, яким ми будемо ходити
-	bool isMove = false;				   //Чи вибрав гравець фігуру для ходу
+	float dx = A1X - 5, dy = A1Y - 6;    
+	bool isMove = false;				 
 	sf::RectangleShape cursor(sf::Vector2f(EACH_SQUARE, EACH_SQUARE));
-	Cords oldPos;//Початкова позиція фігури
-	Cords newPos;//Те, куди її перемістив гравець
+	Cords oldPos;
+	Cords newPos;
 	while (window.isOpen())
 	{
 		if (isMove)					   cursor.setFillColor(sf::Color::Color(0, 255, 0, 125));
-		else if (game.GetTurn() == 7)  cursor.setFillColor(sf::Color::Color(125, 50, 255, 125));   //Колір курсору
+		else if (game.GetTurn() == 7)  cursor.setFillColor(sf::Color::Color(125, 50, 255, 125));  
 		else                           cursor.setFillColor(sf::Color::Color(255, 0, 0, 125));
 		cursor.setPosition(dx, dy);
 
-		int scanner = game.ScanField();//Скан поля
-		if (!scanner)                  //Вихід з циклу, якщо фігури або ходи одного з гравців закінчилися
+		int scanner = game.ScanField();
+		if (!scanner)                  
 			break;
 
 		sf::Event event;
@@ -79,37 +79,37 @@ bool Menu::PlayGame(std::string& player)
 						game.MakeMove(oldPos, newPos, game.TryMove(oldPos, newPos, scanner));
 					}
 				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab))    //Метод повертає true, якщо сессія закінчилася, не важливо вихідом з гри, чи перемогою одного з гравців. Принатисканні клавіши Tab - гра переривається, і ми повертаємося до головного меню
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Tab))  
 				{
 					window.close();
 					return true;
 				}
-				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))      //А якщо метод повернув false, то ми запускаємо цю функцію в циклі знову
+				else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::R))    
 				{
 					window.close();
 					return false;
 				}
 			}
 		}
-		dx = cursor.getPosition().x;   //Нові координати курсору
+		dx = cursor.getPosition().x;   
 		dy = cursor.getPosition().y;
 
 		window.clear();
-		game.Draw(window);          //Стандартна тема для SFML
+		game.Draw(window);       
 		window.draw(cursor);
 		window.display();
 	}
-	end = time(0);       //Час закінчення сесії, якщо гра не була перервана з зовні
-	Menu::time1 = ctime(&start);   //Ініціалізація полів із статичної структури
+	end = time(0);       
+	Menu::time1 = ctime(&start);
 	Menu::time2 = localtime(&end);
 	Menu::winner = game.GetTurn() == 7 ? 4 : 7;
 
 
 	score << time1;
-	score << time2->tm_hour << ':' << time2->tm_min << ':' << time2->tm_sec << ' ';   //Запис результатів у файл
+	score << time2->tm_hour << ':' << time2->tm_min << ':' << time2->tm_sec << ' ';
 	score << winner << '\n';
 
-	delete time2;   //Очищення непотрібної динамічної пам'яті
+	delete time2;   
 
 	Sleep(2000);
 	return true;
@@ -162,7 +162,7 @@ std::string* Menu::LogInSingUp(int check)
 			{
 				if (!password.empty())
 				{
-					std::cout << "\b";					//Ось як зробити, щоб ці зірочки все таки зтиралися?
+					std::cout << "\b";					
 					password.erase(password.end() - 1);
 				}
 				continue;
@@ -229,7 +229,7 @@ void Menu::Score(const std::string& account)
 			char command;
 			std::cout << "--->";
 			command = (char)_getch();
-			if (command == 'q')				//Кожні 10 рядків консоль вивід зупиняється, щоб гравець натис клавішу і продовжив перегляд(для зручності).Але якщо було натиснуте q(від слова quit), то ми повертаємося в меню
+			if (command == 'q')				
 			{
 				system("cls");
 				return;
@@ -240,7 +240,7 @@ void Menu::Score(const std::string& account)
 	system("cls");
 }
 
-void Menu::MainMenu() //Я втомився коментити...
+void Menu::MainMenu() 
 {
 	sf::SoundBuffer soundBuff;
 	soundBuff.loadFromFile("audio/screem.ogg");

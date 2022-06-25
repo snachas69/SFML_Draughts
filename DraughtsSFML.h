@@ -1,5 +1,5 @@
 #pragma once
-#define NOMINMAX	//SFML може конфліктувати з Windows.h. Щоб уникнути цього -- потрібно зробити цю штуку
+#define NOMINMAX	//SFML conflicts with Windows.h. To avoid this issue I had to define this flag
 
 #include <iostream>
 #include <SFML/Graphics.hpp>
@@ -11,7 +11,7 @@
 #include <Windows.h>
 #include <string>
 
-struct Cords	//Структура, щоб зберігати координати, та два конструктора, щоб витрачати менше коду
+struct Cords	
 {
 	Cords();
 	Cords(int x, int y);
@@ -19,17 +19,17 @@ struct Cords	//Структура, щоб зберігати координати, та два конструктора, щоб вит
 	int y;
 };
 
-const int A1X = 93;				//Константна змінна з місцезнаходженням клітинки А1 по осі х у пікселях
-const int A1Y = 83;				//Константна змінна з місцезнаходженням клітинки А1 по осі х у пікселях
-const float EACH_SQUARE = 71.7f;//Довжина та ширина кожного квадратика на полі
+const int A1X = 93;
+const int A1Y = 83;
+const float EACH_SQUARE = 71.7f;
 
 static struct Menu   
 {
-	static bool PlayGame(std::string& player);		//Статичний метод структури, що відповідає за сам ігровий процес і запис результатів гри у файл(якщо гра була призупинена, то результат нікуди не записується)
-	static std::string* LogInSingUp(int check);		//Статичний метод, що відповідає за регестрацію та вхід в акаунт
-	static void Score(const std::string& account);  //Статичний метод, що виводить історію конкретного акаунту
-	static void MainMenu();							//Метод, що реалізує методи вище і являє собою меню(натисніть на Exit:))
-	static std::string time1;						//Статичне поле, що відповідає за початок ігрової сесії
-	static tm* time2;								//Статичне поле, що відповідає за кінець сесії
-	static int winner;								//Статичне поле, що відповідає за переможця в сесії 
+	static bool PlayGame(std::string& player);
+	static std::string* LogInSingUp(int check);
+	static void Score(const std::string& account);  
+	static void MainMenu();							
+	static std::string time1;						
+	static tm* time2;								
+	static int winner;								
 };
